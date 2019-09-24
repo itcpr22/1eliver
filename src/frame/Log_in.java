@@ -381,36 +381,7 @@ public class Log_in extends javax.swing.JFrame {
     }//GEN-LAST:event_passActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-//        String sUname = uname.getText();
-//        String sPass = new String(pass.getPassword());
-//
-//        try {
-//            Class.forName("com.mysql.jdbc.Driver");
-//            String conURL = "jdbc:mysql://localhost/log_in?"
-//                    + "user=root&password=";
-//            Connection con = DriverManager.getConnection(conURL);
-////=== ==========
-//            PreparedStatement pstmt = con.prepareStatement("SELECT * FROM tblreg "
-//                    + "WHERE username = ?  AND pass = MD5(?);");
-//            pstmt.setString(1, sUname);
-//            pstmt.setString(2, sPass);
-//
-//            ResultSet rs = pstmt.executeQuery();
-//            if (rs.next()) {
-//                JOptionPane.showMessageDialog(rootPane, "LOG IN SUCCESSFULLY");
-//            } else {
-//                JOptionPane.showMessageDialog(rootPane, "Incorrect username or password", "Log in error", JOptionPane.ERROR_MESSAGE);
-//            }
-//            uname.setText("");
-//            pass.setText("");
-//
-////==========
-//        } catch (ClassNotFoundException ex) {
-//            Logger.getLogger(Log_in.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (SQLException ex) {
-//            Logger.getLogger(Log_in.class.getName()).log(Level.SEVERE, null, ex);
-//
-//        }  // TODO add your handling code here:
+//      
         String un = uname.getText();
         String pw = new String(pass.getPassword());
 
