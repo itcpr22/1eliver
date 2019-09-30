@@ -5,7 +5,9 @@
  */
 package frame;
 
+import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -25,6 +27,8 @@ public class mainpage extends javax.swing.JFrame {
     public mainpage(String fname) {
         initComponents();
         jLabel1.setText("welcome " + fname);
+        load();
+        
 
     }
     prod_class probj = new prod_class();
@@ -40,7 +44,7 @@ public class mainpage extends javax.swing.JFrame {
     public void load() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            String conURL = "jdbc:mysql://localhost/log_in?"
+            String conURL = "jdbc:mysql://localhost/eliverdb?"
                     + "user=root&password=";
             java.sql.Connection con = DriverManager.getConnection(conURL);
 
@@ -54,6 +58,7 @@ public class mainpage extends javax.swing.JFrame {
                     rs.getString("product_name"),
                     rs.getString("quantity"),
                     rs.getString("price")});
+                  prodrowcount.setText(prodtbl.getRowCount() + "");
             }
 
             //TFrCode.requestFocus();
@@ -91,6 +96,14 @@ public class mainpage extends javax.swing.JFrame {
         jTextField1 = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         prodtbl = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
+        prodrowcount = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+
+        pDialog.setMinimumSize(new java.awt.Dimension(374, 300));
+        pDialog.setModal(true);
+        pDialog.setPreferredSize(new java.awt.Dimension(374, 300));
+        pDialog.setResizable(false);
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel5.setText("Add  new Product");
@@ -222,21 +235,42 @@ public class mainpage extends javax.swing.JFrame {
         prodtbl.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(prodtbl);
 
+        jButton1.setText("Delete");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        prodrowcount.setText("jLabel6");
+
+        jLabel6.setText("No. of Products");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jTextField1)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(Search))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jTextField1)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(Search))
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel1)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(prodrowcount)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnako)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel1))
+                        .addGap(27, 27, 27)
+                        .addComponent(jButton1)))
                 .addContainerGap(54, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -251,7 +285,11 @@ public class mainpage extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnako)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnako)
+                    .addComponent(jButton1)
+                    .addComponent(prodrowcount)
+                    .addComponent(jLabel6))
                 .addContainerGap(26, Short.MAX_VALUE))
         );
 
@@ -265,17 +303,16 @@ public class mainpage extends javax.swing.JFrame {
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         // TODO add your handling code here:
-       String pn = txtprod.getText();
+        String pn = txtprod.getText();
         int qty = (int) jsqty.getValue();
         Object pr = jfpr.getText();
-        
-          int z = probj.checkProductname(pn);
-          
-        if (!"".equals(pn) && !"".equals(qty) && !"".equals(pr)) {
-            if (z == 1) {
-                if (z == 0) {
 
-                    int x = probj.product(pn, qty, pr);
+        int z = probj.checkProductname(pn);
+        int x = probj.product(pn, qty, pr);
+        if (!"".equals(pn) && !"".equals(qty) && !"".equals(pr)) {
+            if (z == 0) {
+                if (x == 1) {
+
                     if (x == 1) {
                         JOptionPane.showMessageDialog(pDialog, "Product Added Successfully!");
                         clear();
@@ -287,9 +324,9 @@ public class mainpage extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(pDialog, "Product Already Exist!", "Warning", JOptionPane.WARNING_MESSAGE);
                 }
             } else {
-                JOptionPane.showMessageDialog(pDialog,"Please Fill out the fields!", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(pDialog, "Please Fill out the fields!", "Error", JOptionPane.ERROR_MESSAGE);
             }
-        } 
+        }
 
     }//GEN-LAST:event_btnAddActionPerformed
 
@@ -300,8 +337,56 @@ public class mainpage extends javax.swing.JFrame {
             clear();
 
         } else {
+
+        }
     }//GEN-LAST:event_btnAdd1ActionPerformed
-    }
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+       
+       int selRow = prodtbl.getSelectedRow();
+        if (selRow != -1) {// meaning the row is valid
+            int column = 0;  // the ID is located at the first column
+            String id = prodtbl
+                    .getValueAt(selRow, column).toString();
+            int ans = JOptionPane.showConfirmDialog(null,
+                    "Are you sure you want to delete this product?",
+                    "Delete Confirmation",
+                    JOptionPane.YES_NO_OPTION);
+
+            if (ans == JOptionPane.YES_OPTION) {    // YES
+                try {
+                    Class.forName("com.mysql.jdbc.Driver");// the connector
+                    String conURL = "jdbc:mysql://localhost/eliverdb?"
+                            + "user=root&password=";
+                    Connection con = DriverManager.getConnection(conURL);
+                    PreparedStatement pstmt = con.prepareStatement("DELETE FROM tblprod WHERE id = ? ");
+                    pstmt.setString(1, id);
+                    pstmt.executeUpdate();
+
+                    load();
+
+                } catch (ClassNotFoundException | SQLException ex) {
+                    Logger.getLogger(mainpage.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        } else { // meaning if the row is invalid ( -1 )
+            JOptionPane.showMessageDialog(null, "Please select a row to be deleted",
+                    "No record selected",
+                    JOptionPane.WARNING_MESSAGE);
+            // TODO add your handling code here:
+        }                    
+//   DefaultTableModel model = (DefaultTableModel) this.prodtbl.getModel();
+//        int[] rows = prodtbl.getSelectedRows();
+//        for (int i = 0; i < rows.length; i++) {
+//            model.removeRow(rows[i] - i);
+//            if (JOptionPane.showConfirmDialog(null, "Confirm if you want to remove", "PARADISO RESERVATION SYSTEM",
+//                    JOptionPane.YES_NO_OPTION) == JOptionPane.YES_NO_OPTION) {
+//                 load();
+//            } else {
+//            }
+//
+//        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -343,17 +428,20 @@ public class mainpage extends javax.swing.JFrame {
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnAdd1;
     private javax.swing.JButton btnako;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JFormattedTextField jfpr;
     private javax.swing.JSpinner jsqty;
     private javax.swing.JDialog pDialog;
+    private javax.swing.JLabel prodrowcount;
     private javax.swing.JTable prodtbl;
     private javax.swing.JTextField txtprod;
     // End of variables declaration//GEN-END:variables

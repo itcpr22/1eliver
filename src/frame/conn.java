@@ -10,7 +10,7 @@ package frame;
  * @author 
  */
 public class conn {
-    protected String dbname = "log_in";
+    protected String dbname = "eliverdb";
     protected String url = "jdbc:mysql://localhost/"+dbname;
     protected String username = "root";
     protected String password = ""; 

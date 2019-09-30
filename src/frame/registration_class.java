@@ -29,7 +29,7 @@ class registration_class {
     try{
         Class.forName("com.mysql.jdbc.Driver");
         Connection conn = (Connection) DriverManager.getConnection(con.url, con.username, con.password);
-        String sql = "insert into tblreg values(null,?,?,?,md5(?),0)";
+        String sql = "insert into log_in values(null,?,?,?,md5(?),0)";
         PreparedStatement pstmt = (PreparedStatement) conn.prepareStatement(sql);
         
         pstmt.setString(1, fname);
@@ -65,7 +65,7 @@ class registration_class {
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = (Connection) DriverManager.getConnection(con.url, con.username, con.password);
         
-            String sql = "SELECT username FROM tblreg WHERE username = ?;";
+            String sql = "SELECT username FROM log_in WHERE username = ?;";
             PreparedStatement pstmt = (PreparedStatement) conn.prepareStatement(sql);
         
             pstmt.setString(1, username);

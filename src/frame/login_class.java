@@ -28,7 +28,7 @@ class login_class {
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = (Connection) DriverManager.getConnection(con.url,con.username,con.password);
             
-            String sql = "SELECT * FROM tblreg WHERE username = ? AND pass = MD5(?);";
+            String sql = "SELECT * FROM log_in WHERE username = ? AND pass = MD5(?);";
             PreparedStatement pstmt = (PreparedStatement) conn.prepareStatement(sql);
             
             pstmt.setString(1, username);
