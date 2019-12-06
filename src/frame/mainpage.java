@@ -28,12 +28,17 @@ public class mainpage extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         load();
+              refreshThread.start();
+  
+      
     }
 
     public mainpage(String fname) {
         initComponents();
         jLabel1.setText("welcome " + fname);
         load();
+                refreshThread.start();
+
 
     }
 
@@ -87,6 +92,21 @@ public class mainpage extends javax.swing.JFrame {
         }
 
     }
+     Thread refreshThread = new Thread(new Runnable() {     
+        @Override
+        public void run(){
+            try{
+                while(true){
+                    load();
+                    //System.out.println("Refresh");
+                    Thread.sleep(5000);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(mainpage.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }
+    });
 
     final void search(String keyword) {
 
@@ -488,7 +508,7 @@ public class mainpage extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-int table_row = prodtbl.getSelectedRow();
+        int table_row = prodtbl.getSelectedRow();
         this.enableAddProductFields();
         
         if(table_row != -1){
@@ -570,10 +590,7 @@ int table_row = prodtbl.getSelectedRow();
         }else{
             JOptionPane.showMessageDialog(rootPane, "Please Select a product", "Warning", JOptionPane.WARNING_MESSAGE);
         }
-    
-
-              
-                                // TODO add 
+                           // TODO add 
     }//GEN-LAST:event_addqtyActionPerformed
 
     private void SearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchActionPerformed
