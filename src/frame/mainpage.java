@@ -98,7 +98,7 @@ public class mainpage extends javax.swing.JFrame {
             try{
                 while(true){
                     load();
-                    //System.out.println("Refresh");
+                    System.out.println("Refresh");
                     Thread.sleep(5000);
                 }
             } catch (InterruptedException ex) {
@@ -438,6 +438,7 @@ public class mainpage extends javax.swing.JFrame {
         pDialog.setVisible(true);
         pDialog.setLocationRelativeTo(rootPane);
         pDialog.setAlwaysOnTop(true);
+        
         btnAdd.setVisible(true);
         save_btn.setVisible(false);
         addqty_btn.setVisible(false);
@@ -558,9 +559,17 @@ public class mainpage extends javax.swing.JFrame {
     private void addqty_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addqty_btnActionPerformed
         // TODO add your handling code here:
 
-        int a = new prod_class().product_addQty(Integer.parseInt(id.toString()), jsqty.getValue());
-        load();
-        pDialog.setVisible(false);
+      String pn = txtprod.getText();
+        Object qty = jsqty.getValue();
+        int c = JOptionPane.showConfirmDialog(pDialog, "Would you like to add\n "+qty+"\n to "+pn+" product?", "Add Quantity", JOptionPane.YES_NO_OPTION);
+        if(c == JOptionPane.YES_OPTION){
+            int r = probj.product_addQty((int) id, qty);
+            if(r==1){
+                JOptionPane.showMessageDialog(pDialog, "Quantity Updated");
+                pDialog.setVisible(false);
+                this.load();
+            }
+        }
     }//GEN-LAST:event_addqty_btnActionPerformed
 
     private void addqtyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addqtyActionPerformed

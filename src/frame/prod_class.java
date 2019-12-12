@@ -129,7 +129,9 @@ public class prod_class {
     }
 
      public int product_addQty(int id, Object quantity){int y = 0;
-        try{
+       int r = 0;
+     try{
+       
     String sql = "update tblprod set quantity =quantity+ ? where id=?;";
     Class.forName("com.mysql.jdbc.Driver");
     java.sql.Connection conn = (java.sql.Connection)DriverManager.getConnection("jdbc:mysql://localhost/eliverdb?", "root", "");
@@ -144,7 +146,8 @@ public class prod_class {
             Logger.getLogger(prod_class.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(prod_class.class.getName()).log(Level.SEVERE, null, ex);
-        }return y; 
+        }
+        return r;
     }   
 
 }
